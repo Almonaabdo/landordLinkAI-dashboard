@@ -12,20 +12,32 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          headerShown: false,
+          tabBarButton: HapticTab,
+          tabBarBackground: TabBarBackground,
+          // 👇 Platform-specific tab bar position and style
+          tabBarPosition: Platform.select({
+            web: 'top', // Move tabs to the top on web
+          }),
+          tabBarStyle: Platform.select({
+            ios: {
+              position: 'absolute',
+            },
+            android: {
+              position: 'absolute',
+            },
+            web: {
+              position: 'relative',
+              borderBottom: '1px solid #ccc',
+            },
+          }),
+        }}
+      >
+
+
       <Tabs.Screen
         name="index"
         options={{
@@ -37,6 +49,14 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: 'Explore',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="about"
+        options={{
+          title: 'About',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
